@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Complex styled maps</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+
+var map;
+var ottawa = new google.maps.LatLng(45.423671, -75.700935);
+
+function initialize() {
+
+  var roadAtlasStyles = [
+    {
+      featureType: 'road.highway',
+      elementType: 'geometry',
+      stylers: [
+        { hue: '#236B8E' },
+        { saturation: 60 },
+        { lightness: -50 }
+      ]
+    },{
+      featureType: 'road.arterial',
+      elementType: 'all',
+      stylers: [
+        { hue: '#236B8E' },
+        { lightness: 100 },
+        { visibility: 'simplified' },
+        { saturation: 10 }
+      ]
+    },{
+      featureType: 'road.local',
+      elementType: 'all',
+      stylers: [
+        { hue: '#236B8E' },
+        { saturation: 50 },
+        { gamma: 0.7 },
+        { visibility: 'simplified' }
+      ]
+    },{
+      featureType: 'water',
+      elementType: 'geometry',
+      stylers: [
+        { hue: "#00d4ff" },
+  { saturation: 60 },
+  { lightness: -20 },
+  { gamma: 1.51 }
+      ]
+    },{
+      featureType: 'road.highway',
+      elementType: 'labels',
+      stylers: [
+        { visibility: 'on' },
+        { saturation: 98 }
+      ]
+    },{
+      featureType: 'administrative.locality',
+      elementType: 'labels',
+      stylers: [
+        { hue: '#0022ff' },
+        { saturation: 50 },
+        { lightness: -10 },
+        { gamma: 0.90 }
+      ]
+    },{
+      featureType: 'transit.line',
+      elementType: 'geometry',
+      stylers: [
+        { hue: '#ff0000' },
+        { visibility: 'on' },
+        { lightness: -70 }
+      ]
+    }
+  ];
+
+  var mapOptions = {
+    zoom: 14,
+    center: ottawa,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'usroadatlas']
+    }
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var styledMapOptions = {
+    name: 'US Road Atlas'
+  };
+
+  var usRoadMapType = new google.maps.StyledMapType(
+      roadAtlasStyles, styledMapOptions);
+
+  map.mapTypes.set('usroadatlas', usRoadMapType);
+  map.setMapTypeId('usroadatlas');
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
